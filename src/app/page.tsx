@@ -4,26 +4,20 @@ import Image from "next/image";
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FiArrowRight } from 'react-icons/fi';
+import { destinations } from '@/data/destinations';
+
+// Get featured destinations by category
+const getFeaturedDestinations = (category: string) => {
+  return destinations
+    .filter(dest => dest.category === category)
+    .slice(0, 3); // Get first 3 destinations of each category
+};
 
 const featuredDestinations = [
-  {
-    id: 1,
-    name: 'Paris, France',
-    image: '/images/paris.jpg',
-    description: 'The City of Light awaits with its iconic landmarks and romantic atmosphere.',
-  },
-  {
-    id: 2,
-    name: 'Tokyo, Japan',
-    image: '/images/tokyo.jpg',
-    description: 'Experience the perfect blend of tradition and innovation in Japan\'s capital.',
-  },
-  {
-    id: 3,
-    name: 'New York, USA',
-    image: '/images/new-york.jpg',
-    description: 'The city that never sleeps offers endless entertainment and cultural experiences.',
-  },
+  ...getFeaturedDestinations('City'),
+  ...getFeaturedDestinations('Beach'),
+  ...getFeaturedDestinations('Mountain'),
+  ...getFeaturedDestinations('Historical')
 ];
 
 export default function Home() {
@@ -114,7 +108,7 @@ export default function Home() {
                   </p>
                   <Link
                     href={`/destinations/${destination.id}`}
-                    className="text-blue-600 hover:text-blue-700 font-medium inline-flex items-center"
+                    className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center"
                   >
                     Learn More
                     <FiArrowRight className="ml-2" />
