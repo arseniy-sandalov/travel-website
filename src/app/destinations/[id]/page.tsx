@@ -54,14 +54,6 @@ export default function DestinationPage({ params }: PageProps) {
         window.open(destination.virtualTourUrl, '_blank');
       };
       
-      const testButton = document.createElement('button');
-      testButton.className = 'px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-bold';
-      testButton.textContent = 'Test Images';
-      testButton.onclick = (e) => {
-        e.preventDefault();
-        window.open('/virtual-tours/paris/test.html', '_blank');
-      };
-      
       const instructions = document.createElement('div');
       instructions.className = 'mt-8 p-4 bg-gray-100 rounded-lg text-left';
       
@@ -75,7 +67,7 @@ export default function DestinationPage({ params }: PageProps) {
       const instructionsItems = [
         'Click and drag to look around',
         'Use the mouse wheel to zoom in and out',
-        'Use the arrow buttons or keyboard arrows to navigate between locations',
+        'Use the navigation controls to move between different views',
         'Use the fullscreen button for an immersive experience'
       ];
       
@@ -89,7 +81,6 @@ export default function DestinationPage({ params }: PageProps) {
       instructions.appendChild(instructionsList);
       
       buttonContainer.appendChild(mainButton);
-      buttonContainer.appendChild(testButton);
       
       container.appendChild(title);
       container.appendChild(message);

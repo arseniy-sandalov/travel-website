@@ -53,7 +53,7 @@ export const destinations: Destination[] = [
     location: 'France',
     bestTimeToVisit: 'April to October',
     priceRange: '$$$',
-    virtualTourUrl: '/virtual-tours/paris/index.html',
+    virtualTourUrl: 'https://www.360cities.net/image/musee-du-louvre-interior-paris',
     highlights: [
       'Eiffel Tower',
       'Louvre Museum',
