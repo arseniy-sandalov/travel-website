@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paris Virtual Tour - Wanderlust Explorer</title>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .header {
+      background-color: #4f46e5;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background-color: #f3f4f6;
+    }
+    
+    .location-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+      max-width: 600px;
+      width: 100%;
+    }
+    
+    .location-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #4f46e5;
+      margin-bottom: 10px;
+    }
+    
+    .location-description {
+      color: #4b5563;
+      margin-bottom: 15px;
+    }
+    
+    .location-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+    
+    .navigation {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .nav-button {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .nav-button:hover {
+      background-color: #4338ca;
+    }
+    
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    
+    .loading-spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid #4f46e5;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      color: #4b5563;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Paris Virtual Tour</h1>
+    </div>
+    
+    <div class="content" id="content">
+      <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Loading virtual tour...</p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Define the locations for the virtual tour
+      const locations = [
+        {
+          id: 'eiffel-tower',
+          title: 'Eiffel Tower',
+          description: 'The iconic symbol of Paris, standing at 324 meters tall. Completed in 1889, it was named after engineer Gustave Eiffel, whose company designed and built the tower.',
+          image: '/virtual-tours/paris/eiffel-tower.jpg'
+        },
+        {
+          id: 'louvre',
+          title: 'Louvre Museum',
+          description: 'The world\'s largest art museum, home to the Mona Lisa. The Louvre is a central landmark of Paris, France, and is located on the Right Bank of the Seine.',
+          image: '/virtual-tours/paris/louvre.jpg'
+        },
+        {
+          id: 'notre-dame',
+          title: 'Notre-Dame Cathedral',
+          description: 'A masterpiece of French Gothic architecture. The cathedral is widely considered to be one of the finest examples of French Gothic architecture.',
+          image: '/virtual-tours/paris/notre-dame.jpg'
+        }
+      ];
+      
+      let currentLocationIndex = 0;
+      const contentElement = document.getElementById('content');
+      const loadingElement = document.getElementById('loading');
+      
+      // Function to create a location card
+      function createLocationCard(location) {
+        const card = document.createElement('div');
+        card.className = 'location-card';
+        
+        const title = document.createElement('h2');
+        title.className = 'location-title';
+        title.textContent = location.title;
+        
+        const description = document.createElement('p');
+        description.className = 'location-description';
+        description.textContent = location.description;
+        
+        const image = document.createElement('img');
+        image.className = 'location-image';
+        image.src = location.image;
+        image.alt = location.title;
+        
+        // Add error handling for image loading
+        image.onerror = function() {
+          this.src = 'https://via.placeholder.com/600x300?text=Image+Not+Available';
+        };
+        
+        const navigation = document.createElement('div');
+        navigation.className = 'navigation';
+        
+        const prevButton = document.createElement('button');
+        prevButton.className = 'nav-button';
+        prevButton.textContent = '← Previous';
+        prevButton.onclick = function() {
+          currentLocationIndex = (currentLocationIndex - 1 + locations.length) % locations.length;
+          updateLocation();
+        };
+        
+        const nextButton = document.createElement('button');
+        nextButton.className = 'nav-button';
+        nextButton.textContent = 'Next →';
+        nextButton.onclick = function() {
+          currentLocationIndex = (currentLocationIndex + 1) % locations.length;
+          updateLocation();
+        };
+        
+        navigation.appendChild(prevButton);
+        navigation.appendChild(nextButton);
+        
+        card.appendChild(title);
+        card.appendChild(image);
+        card.appendChild(description);
+        card.appendChild(navigation);
+        
+        return card;
+      }
+      
+      // Function to update the current location
+      function updateLocation() {
+        // Show loading
+        contentElement.innerHTML = '';
+        contentElement.appendChild(loadingElement);
+        
+        // Create a new card for the current location
+        const location = locations[currentLocationIndex];
+        const card = createLocationCard(location);
+        
+        // Hide loading and show the card
+        setTimeout(() => {
+          contentElement.innerHTML = '';
+          contentElement.appendChild(card);
+        }, 500);
+      }
+      
+      // Initialize the first location
+      updateLocation();
+      
+      // Add keyboard navigation
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowLeft') {
+          currentLocationIndex = (currentLocationIndex - 1 + locations.length) % locations.length;
+          updateLocation();
+        } else if (event.key === 'ArrowRight') {
+          currentLocationIndex = (currentLocationIndex + 1) % locations.length;
+          updateLocation();
+        }
+      });
+    });
+  </script>
+</body>
+</html> 
