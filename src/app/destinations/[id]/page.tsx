@@ -62,13 +62,15 @@ export default function DestinationPage({ params }: PageProps) {
       instructionsTitle.textContent = 'How to use the virtual tour:';
       
       const instructionsList = document.createElement('ul');
-      instructionsList.className = 'list-disc pl-5 text-gray-700 space-y-1';
+      instructionsList.className = 'list-disc pl-5 text-gray-700 space-y-2';
       
       const instructionsItems = [
-        'Click and drag to look around',
-        'Use the mouse wheel to zoom in and out',
-        'Use the navigation controls to move between different views',
-        'Use the fullscreen button for an immersive experience'
+        'Click the "Open Virtual Tour" button to open the 360° view',
+        'Look for the fullscreen button (expand icon) in the bottom-right corner',
+        'Click the fullscreen button for the best immersive experience',
+        'Use your mouse or touch to look around in 360°',
+        'Use the mouse wheel or pinch gestures to zoom in and out',
+        'Press ESC or click the fullscreen button again to exit fullscreen mode'
       ];
       
       instructionsItems.forEach(item => {
@@ -76,9 +78,14 @@ export default function DestinationPage({ params }: PageProps) {
         li.textContent = item;
         instructionsList.appendChild(li);
       });
+
+      const note = document.createElement('p');
+      note.className = 'mt-4 text-sm text-gray-600 italic';
+      note.textContent = 'Tip: For the best experience, click the fullscreen button immediately after the virtual tour loads.';
       
       instructions.appendChild(instructionsTitle);
       instructions.appendChild(instructionsList);
+      instructions.appendChild(note);
       
       buttonContainer.appendChild(mainButton);
       
