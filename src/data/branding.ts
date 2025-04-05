@@ -1,6 +1,6 @@
 export const branding = {
-  name: "Wanderlust Explorer",
-  tagline: "Discover the world's most enchanting destinations",
+  name: "Global Voyager",
+  tagline: "Your passport to extraordinary adventures",
   description: "Your ultimate guide to exploring the world's most beautiful places, with detailed information about attractions, accommodations, and local experiences.",
   logo: "/images/logo.png",
   colors: {

@@ -21,11 +21,7 @@ export default function RootLayout({
         <header className="bg-white shadow-md">
           <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
             <div className="flex items-center">
-              <img src={branding.logo} alt={branding.name} className="h-10 w-auto mr-3" />
-              <div>
-                <h1 className="text-2xl font-bold text-indigo-700">{branding.name}</h1>
-                <p className="text-sm text-gray-500">{branding.tagline}</p>
-              </div>
+              <h1 className="text-2xl font-bold text-indigo-700">{branding.name}</h1>
             </div>
             <nav className="flex space-x-4">
               <a href="/" className="text-gray-700 hover:text-indigo-700 font-medium">Home</a>
